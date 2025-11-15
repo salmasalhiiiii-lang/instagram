@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instagram-style Demo Login</title>
+  <style>
+    :root{
+      --bg: #fafafa;
+      --card:#fff;
+      --muted:#8e8e8e;
+      --accent:#0095f6;
+      --radius:10px;
+      font-family: "Helvetica Neue", Arial, system-ui, -apple-system;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .container{
+      width:360px;
+      max-width:calc(100% - 32px);
+      margin:20px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid #dbdbdb;
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.03);
+      text-align:center;
+    }
+    .logo img{
+      width:180px;
+      margin-bottom:20px;
+    }
+    .warning{
+      background:#fff7f7;
+      border:1px solid #ffd6d6;
+      color:#9b1c1c;
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:13px;
+      margin-bottom:12px;
+    }
+    form{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+    input[type="text"], input[type="password"]{
+      padding:11px 12px;
+      border-radius:6px;
+      border:1px solid #dbdbdb;
+      font-size:14px;
+      background:#fafafa;
+      outline:none;
+    }
+    input:focus{
+      box-shadow:0 0 0 4px rgba(0,149,246,0.08);
+      border-color:var(--accent);
+      background:#fff;
+    }
+    .btn{
+      padding:10px 12px;
+      background:var(--accent);
+      color:white;
+      font-weight:600;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
+    .or{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:10px 0;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .or::before, .or::after{
+      content:"";
+      flex:1;
+      height:1px;
+      background:#dbdbdb;
+    }
+    .facebook{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      color:#385185;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      margin-top:6px;
+    }
+    .muted{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:14px;
+    }
+    .small{
+      font-size:12px;
+      color:#999;
+      margin-top:8px;
+    }
+    .alt-card{
+      background:transparent;
+      text-align:center;
+      margin-top:12px;
+      padding:16px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    @media (max-width:400px){
+      .container{ width:100% }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <div class="card" aria-label="Instagram-style demo login">
+      
+      <!-- Instagram logo (from Wikimedia Commons public domain version) -->
+      <div class="logo" aria-hidden="true">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo">
+      </div>
+
+            <form id="demoForm" autocomplete="off" novalidate>
+        <input id="user" name="user" type="text" placeholder="Phone number, username or email" required />
+        <input id="pass" name="pass" type="password" placeholder="Password" required />
+        <button class="btn" type="submit">Log In</button>
+      </form>
+
+      <div class="or" aria-hidden="true"><span>OR</span></div>
+
+      <div class="facebook" role="link" tabindex="0" aria-label="Log in with Facebook (demo)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M17 2h-3a4 4 0 0 0-4 4v3H7v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h3V2z" fill="currentColor"/>
+        </svg>
+        Log in with Facebook
+      </div>
+
+      <div class="muted small">Forgot password?</div>
+
+      <div class="alt-card">
+        <span style="color:#111">Don't have an account?</span>
+        <a href="#" style="color:var(--accent);text-decoration:none;font-weight:600">Sign up</a>
+      </div>
+
+      <div id="result" class="small" aria-live="polite" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card alt-card" style="border:none;box-shadow:none;margin-top:8px">
+      <div class="small">Get the app.</div>
+    </div>
+  </div>
+
+  <script>
+    // Safe, client-only behavior (no network requests)
+    const form = document.getElementById('demoForm');
+    const result = document.getElementById('result');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const user = document.getElementById('user').value.trim();
+      const pass = document.getElementById('pass').value;
+      if(!user || !pass){
+        result.style.color = '#c71b1b';
+        result.textContent = 'Please enter both username and password (demo).';
+        return;
+      }
+      result.style.color = '#111';
+      result.textContent = 'Logging in (demo)…';
+      setTimeout(() => {
+        result.style.color = '#059669';
+        result.textContent = `Demo success — welcome, ${user}! (no credentials sent)`;
+      }, 800);
+    });
+
+    document.querySelector('.facebook').addEventListener('click', () => {
+      result.style.color = '#111';
+      result.textContent = 'Demo: Facebook login not connected.';
+      setTimeout(()=> result.textContent = '', 2200);
+    });
+  </script>
+</body>
+</html>
